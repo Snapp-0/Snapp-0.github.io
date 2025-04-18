@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snppy Bio</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particles-animation 6s ease-in-out infinite;
+        }
+
+        @keyframes particles-animation {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(10vw);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            padding: 40px 25px;
+            border-radius: 25px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: pulse 10s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.05;
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.05;
+            }
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            position: relative;
+            overflow: hidden;
+            background: #000000;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .profile-pic::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #E1306C, #F77737, #C13584, #7289DA, #D32F2F);
+            border-radius: 50%;
+            animation: spin 4s linear infinite;
+            z-index: -1;
+            background-size: 300% 300%;
+            animation: spin 4s linear infinite, gradient-shift 8s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-pic::after {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            background: #000000;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .profile-pic img {
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            object-fit: cover;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+            transition: transform 0.5s ease;
+        }
+
+        .profile-pic:hover img {
+            transform: scale(1.1);
+        }
+
+        .username {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #E1306C, #7289DA, #D32F2F);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-shine 3s linear infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes text-shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .bio-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: 0.6s;
+        }
+
+        .link-btn:hover::before {
+            left: 100%;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-btn i,
+        .link-btn .riot-icon {
+            margin-right: 14px;
+            font-size: 24px;
+            min-width: 26px;
+            text-align: center;
+        }
+
+        .link-btn .riot-icon {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: url('https://img.icons8.com/?size=100&id=V1Ja402KSwyz&format=png&color=000000') no-repeat center center;
+            background-size: contain;
+        }
+
+        .instagram {
+            border-left: 5px solid #E1306C;
+            background: linear-gradient(45deg, rgba(225, 48, 108, 0.2), rgba(64, 93, 230, 0.2));
+        }
+
+        .instagram:hover {
+            background: linear-gradient(45deg, rgba(225, 48, 108, 0.4), rgba(64, 93, 230, 0.4));
+        }
+
+        .instagram i {
+            color: #E1306C;
+            transition: transform 0.3s ease;
+        }
+
+        .instagram:hover i {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .riot {
+            border-left: 5px solid #D32F2F;
+            background: rgba(211, 47, 47, 0.2);
+            padding-right: 15px;
+        }
+
+        .riot:hover {
+            background: rgba(211, 47, 47, 0.4);
+        }
+
+        .riot .riot-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .riot:hover .riot-icon {
+            transform: scale(1.2);
+        }
+
+        .copy-btn {
+            cursor: pointer;
+            color: #D32F2F;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: auto;
+        }
+
+        .copy-btn:hover {
+            color: #ff6666;
+            transform: scale(1.1);
+        }
+
+        .copy-btn::after {
+            content: 'Copied!';
+            position: absolute;
+            top: -30px;
+            right: -10px;
+            background: rgba(211, 47, 47, 0.9);
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .copy-btn.copied::after {
+            opacity: 1;
+        }
+
+        .discord {
+            border-left: 5px solid #7289DA;
+            background: rgba(114, 137, 218, 0.2);
+        }
+
+        .discord:hover {
+            background: rgba(114, 137, 218, 0.4);
+        }
+
+        .discord i {
+            color: #7289DA;
+            transition: transform 0.3s ease;
+        }
+
+        .discord:hover i {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+            animation: float 18s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            background: linear-gradient(45deg, #E1306C, #7289DA);
+            width: 180px;
+            height: 180px;
+            top: -60px;
+            right: -60px;
+        }
+
+        .shape-2 {
+            background: linear-gradient(45deg, #7289DA, #D32F2F);
+            width: 220px;
+            height: 220px;
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .shape-3 {
+            background: linear-gradient(45deg, #D32F2F, #E1306C);
+            width: 120px;
+            height: 120px;
+            bottom: 60px;
+            right: 40px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            position: relative;
+        }
+
+        .status-indicator::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.5);
+            animation: pulse-status 1.5s ease infinite;
+        }
+
+        @keyframes pulse-status {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(15px, 15px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* Preloader Styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #E1306C;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+
+            .username {
+                font-size: 24px;
+            }
+
+            .link-btn {
+                padding: 16px 18px;
+                font-size: 15px;
+            }
+
+            .link-btn i,
+            .link-btn .riot-icon {
+                font-size: 20px;
+                min-width: 20px;
+                height: 20px;
+            }
+
+            .copy-btn {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="particles" id="particles"></div>
+    <div class="container" data-aos="fade-up">
+        <div class="animated-background">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+        <div class="profile-pic" data-aos="zoom-in">
+            <img src="https://i.pinimg.com/736x/20/e9/a3/20e9a3d448332149d3e6fc4441ca9943.jpg" alt="Profile Picture">
+        </div>
+        <h1 class="username" data-aos="fade-up" data-aos-delay="200">Snppy</h1>
+        <p class="bio-text" data-aos="fade-up" data-aos-delay="250">Front-End Developer</p>
+        <div class="status" data-aos="fade-up" data-aos-delay="280">
+            <div class="status-indicator"></div>
+            <span class="status-text">Online Now</span>
+        </div>
+        <div class="link-list">
+            <a href="https://www.instagram.com/fam.spksr/" target="_blank" class="link-btn instagram" data-aos="fade-up" data-aos-delay="400">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a class="link-btn riot" data-aos="fade-up" data-aos-delay="500">
+                <span class="riot-icon"></span> Salapao#pepsi
+                <i class="fas fa-copy copy-btn" onclick="copyToClipboard('Salapao#pepsi', this)"></i>
+            </a>
+            <a href="https://discord.gg/vaqrTKNvTA" target="_blank" class="link-btn discord" data-aos="fade-up" data-aos-delay="600">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        function copyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy text. Please try again.');
+            });
+        }
+
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const posX = Math.floor(Math.random() * 100);
+            const posY = Math.random() * 100 + 100;
+            const size = Math.random() * 3 + 1;
+            const colors = ['#E1306C', '#7289DA', '#D32F2F', '#ffffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const delay = Math.random() * 15;
+            const duration = 5 + Math.random() * 10;
+            particle.style.left = `${posX}%`;
+            particle.style.bottom = `-${posY}px`;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.animationDuration = `${duration}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Preloader Script
+        window.addEventListener('load', () => {
+            const preloader = document.querySelector('.preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                setTimeout(() => preloader.remove(), 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
